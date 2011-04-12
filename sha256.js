@@ -24,6 +24,12 @@ function startHashing(stream) {
 	    startHashing(fs.createReadStream(files.shift()));
 	}
     });
+    stream.on('error', function(exception) {
+	console.log(exception);
+	if (files.length > 0) {
+	    startHashing(fs.createReadStream(files.shift()));
+	}
+    });
 }
 
 // If no files, read stdin
