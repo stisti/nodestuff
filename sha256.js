@@ -25,7 +25,7 @@ function startHashing(stream) {
 	}
     });
     stream.on('error', function(exception) {
-	console.log(exception);
+	console.log('' + exception);
 	if (files.length > 0) {
 	    startHashing(fs.createReadStream(files.shift()));
 	}
