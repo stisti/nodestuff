@@ -17,7 +17,9 @@ function startHashing(stream) {
 	h.update(chunk);
     });
     stream.on('end', function() {
-	process.stdout.write(algorithm.toUpperCase() + ' (' + stream.path + ") = " + h.digest('hex') + '\n');
+	process.stdout.write(algorithm.toUpperCase() + 
+			     ' (' + stream.path + ") = " + 
+			     h.digest('hex') + '\n');
 	if (files.length > 0) {
 	    startHashing(fs.createReadStream(files.shift()));
 	}
