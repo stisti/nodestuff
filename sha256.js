@@ -9,13 +9,15 @@ var fs = require('fs');
 
 var files = process.argv.slice(2);
 
+var algorithm = 'sha256';
+
 function startHashing(stream) {
-    var h = crypto.createHash('sha256');
+    var h = crypto.createHash(algorithm);
     stream.on('data', function(chunk) {
 	h.update(chunk);
     });
     stream.on('end', function() {
-	process.stdout.write('SHA256 (' + stream.path + ") = " + h.digest('hex') + '\n');
+	process.stdout.write(algorithm.toUpperCase() + ' (' + stream.path + ") = " + h.digest('hex') + '\n');
 	if (files.length > 0) {
 	    startHashing(fs.createReadStream(files.shift()));
 	}
