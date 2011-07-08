@@ -14,21 +14,21 @@ var algorithm = 'sha256';
 function startHashing(stream) {
     var h = crypto.createHash(algorithm);
     stream.on('data', function(chunk) {
-	h.update(chunk);
+        h.update(chunk);
     });
     stream.on('end', function() {
-	process.stdout.write(algorithm.toUpperCase() + 
-			     ' (' + stream.path + ") = " + 
-			     h.digest('hex') + '\n');
-	if (files.length > 0) {
-	    startHashing(fs.createReadStream(files.shift()));
-	}
+        process.stdout.write(algorithm.toUpperCase() + 
+                             ' (' + stream.path + ") = " + 
+                             h.digest('hex') + '\n');
+        if (files.length > 0) {
+            startHashing(fs.createReadStream(files.shift()));
+        }
     });
     stream.on('error', function(exception) {
-	console.log('' + exception);
-	if (files.length > 0) {
-	    startHashing(fs.createReadStream(files.shift()));
-	}
+        console.log('' + exception);
+        if (files.length > 0) {
+            startHashing(fs.createReadStream(files.shift()));
+        }
     });
 }
 
@@ -38,7 +38,6 @@ if (files.length == 0) {
     startHashing(process.stdin);
 } else {
     files.splice(0, 100).forEach(function(f) {
-	startHashing(fs.createReadStream(f));
+        startHashing(fs.createReadStream(f));
     });
 }
-

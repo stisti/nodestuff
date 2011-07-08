@@ -25,18 +25,18 @@ process.stdin.on('data', function (chunk) {
     var paths = chunk.split(DELIMITER);
     var last = paths.pop();
     paths.forEach(function (path) {
-	outStreams[currentOutStream].write(path + DELIMITER);
-	currentOutStream = (currentOutStream + 1) % outStreams.length;
+        outStreams[currentOutStream].write(path + DELIMITER);
+        currentOutStream = (currentOutStream + 1) % outStreams.length;
     });
     if (last.length > 0) {
-	// last entry did not have DELIMITER at end, so handle it specially
-	outStreams[currentOutStream].write(last);
-	// not incrementing currentOutStream because next chunk will continue this
+        // last entry did not have DELIMITER at end, so handle it specially
+        outStreams[currentOutStream].write(last);
+        // not incrementing currentOutStream because next chunk will continue this
     }
 });
 
 process.stdin.on('end', function() {
     outStreams.forEach(function(s) {
-	s.end();
+        s.end();
     });
 });
