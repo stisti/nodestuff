@@ -1,4 +1,10 @@
 #!/usr/bin/env node
+/*
+ * httpget.js - A simple command-line http client.
+ *
+ * GETs the URL on the command line and writes it to stdout, server headers to stderr.
+ * Multiple URLs will be output concatenated.
+ */
 var program = require('commander');
 program
     .version('0.0.1')
@@ -17,13 +23,17 @@ function http_get(urls) {
         return;
     }
     var parse = url.parse(firstUrl);
-    var req = http.request(
-        {
+    var options = {
             method: 'GET',
             host:   parse.host,
             port:   parse.port ? parse.port : 80,
-            path:   parse.path
-        }, 
+            path:   parse.path,
+    };
+    if (program.reload) {
+        options["cache-control"] = "no-cache";
+    }
+    var req = http.request(
+        options, 
         function (res) {
             process.stderr.write(res.statusCode + '\n');
             for (var h in res.headers) {
